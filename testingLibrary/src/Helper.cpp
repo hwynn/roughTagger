@@ -1,10 +1,13 @@
 #include "Helper.h"
-#include <iostream>
 #include <cstdlib>
 #include <fstream>
-#include <iostream>
 #include <sys/stat.h>
 namespace helper {
+
+	inline bool exists_test3(const std::string& name) {
+		struct stat buffer;
+		return (stat(name.c_str(), &buffer) == 0);
+	}
 
 	void commandLineTest() {
 		//const char* x = "dir > test.txt";

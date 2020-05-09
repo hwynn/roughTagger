@@ -3,7 +3,33 @@ namespace testingmanager {
 	//TODO: finish these functions
 
 	//TODO: documentation. You can probably resuse most of python's documentation. Or make a template in excel to remake it.
-	TestData::TestData() {};
+	//Note: without any default values, we don't need a class constructor.
+	TestData::TestData() {
+		m_hasTitle = false;
+		m_Title = "";
+		m_hasArtists = false;
+		m_Artists = {};
+		m_hasTags = false;
+		m_Tags = {};
+		m_hasDescr = false;
+		m_Descr = "";
+		m_hasRating = false;
+		m_Rating = -1;
+		m_hasSource = false;
+		m_Source = "";
+		m_hasOrgDate = false;
+		m_OrgDate = 0;//seconds since the epoch
+		m_hasSeriesName = false;
+		m_SeriesName = "";
+		m_hasSeriesInstallment = false;
+		m_SeriesInstallment = -1;
+		m_hasMetadataDate = false;
+		m_MetadataDate = 0;
+		m_hasTaggerMark = false;
+		m_TaggerMark = "";
+		m_hasVersionNum = false;
+		m_VersionNum = "-1";
+	};
 
 	bool TestData::containsTitle() { return m_hasTitle; };
 	//return: title if it exists. Else, ""

@@ -1,9 +1,12 @@
-#pragma once
+#ifndef TESTSTRUCTURES_H
+#define TESTSTRUCTURES_H
 #include <ctime>
 #include <string>
 #include <vector>
 namespace testingmanager{
 	//TODO: if you want extra careful error testing (like checking if strings passed as parameters are valid) use precompiler commands to wrap them.
+	std::vector<std::string> g_metatypes = { "Title", "Artist", "Tags", "Description", "Rating", "Source", "Date Created", "SeriesName", "SeriesInstallment", "MetadataDate", "TaggerMark", "VersionNum" };
+	
 	class TestData{
 	//TODO: documentation
 	//TODO: maybe check naming conventions.
@@ -11,6 +14,7 @@ namespace testingmanager{
 	//https://google.github.io/styleguide/cppguide.html
 
 	public:
+
 		TestData();
 
 		bool containsTitle();
@@ -81,34 +85,36 @@ namespace testingmanager{
 		void setData(std::string p_metatype, std::string p_data);
 	
 
-	private:
-		bool m_hasTitle = false;
-		std::string m_Title = "";
-		bool m_hasArtists = false;
-		std::vector<std::string> m_Artists = {};
-		bool m_hasTags = false;
-		std::vector<std::string> m_Tags = {};
-		bool m_hasDescr = false;
-		std::string m_Descr = "";
-		bool m_hasRating = false;
-		int m_Rating = -1;
-		bool m_hasSource = false;
-		std::string m_Source = "";
-		bool m_hasOrgDate = false;
+
+		bool m_hasTitle;
+		std::string m_Title;
+		bool m_hasArtists;
+		std::vector<std::string> m_Artists;
+		bool m_hasTags;
+		std::vector<std::string> m_Tags;
+		bool m_hasDescr;
+		std::string m_Descr;
+		bool m_hasRating;
+		int m_Rating;
+		bool m_hasSource;
+		std::string m_Source;
+		bool m_hasOrgDate;
 		//https://en.cppreference.com/w/c/chrono/time_t
 		//https://en.cppreference.com/w/cpp/chrono/c/time
-		time_t m_OrgDate = 0;//seconds since the epoch
-		bool m_hasSeriesName = false;
-		std::string m_SeriesName = "";
-		bool m_hasSeriesInstallment = false;
-		int m_SeriesInstallment = -1;
-		bool m_hasMetadataDate = false;
-		time_t m_MetadataDate = 0;
-		bool m_hasTaggerMark = false;
-		std::string m_TaggerMark = "";
-		bool m_hasVersionNum = false;
-		std::string m_VersionNum = "-1";
-
+		time_t m_OrgDate;//seconds since the epoch
+		bool m_hasSeriesName;
+		std::string m_SeriesName;
+		bool m_hasSeriesInstallment;
+		int m_SeriesInstallment;
+		bool m_hasMetadataDate;
+		time_t m_MetadataDate;
+		bool m_hasTaggerMark;
+		std::string m_TaggerMark;
+		bool m_hasVersionNum;
+		std::string m_VersionNum;
+	private:
 	};
 
 struct TestFile{};}
+
+#endif

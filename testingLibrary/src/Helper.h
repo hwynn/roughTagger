@@ -1,10 +1,14 @@
-#pragma once
+#ifndef HELPER_H
+#define HELPER_H
 #include <string>
+#include <iostream>
 namespace helper {
 
 	//C:\Users\h\Anaconda3\Scripts\conda run -n foo python C:\Users\h\RealDocs\programming.things\projects\scraps\tagger\downloadGoogleDriveFile.py 1eED3AINVizIQV44DXxj91-s2Qa9EWsAX C:/Users/h/Pictures
 
 	//const std::string condaLocation = "C:\\Users\\h\\Anaconda3\\Scripts\\";
+
+    inline bool exists_test3(const std::string& name);
 
 	void commandLineTest();
 
@@ -111,3 +115,4 @@ namespace helper {
 
 
 }
+#endif
