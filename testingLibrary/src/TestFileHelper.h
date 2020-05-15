@@ -1,25 +1,47 @@
-#ifndef HELPER_H
-#define HELPER_H
+#ifndef TESTFILEHELPER_H
+#define TESTFILEHELPER_H
+#include "TestStructures.h"
 #include <string>
 #include <iostream>
-namespace helper {
+namespace testfilehelper {
 
 	//C:\Users\h\Anaconda3\Scripts\conda run -n foo python C:\Users\h\RealDocs\programming.things\projects\scraps\tagger\downloadGoogleDriveFile.py 1eED3AINVizIQV44DXxj91-s2Qa9EWsAX C:/Users/h/Pictures
 
 	//const std::string condaLocation = "C:\\Users\\h\\Anaconda3\\Scripts\\";
 
-    inline bool exists_test3(const std::string& name);
 
+    //Checks if a file exists
+    //p_filename: full filename including the path
+    bool fileExists(const std::string& p_filename);
+
+    //Copies a file
+    //p_filename1: full filename including the path of existing file we want to copy
+    //Note: we assume file1 exists without checking.
+    //p_filename2: full filename including the path of the copy file we're going to create
+    //Note: we assume file1 exists without checking.
+    void copyFile(const std::string& p_filename1, const std::string& p_filename2);
+
+    //Deletes a file
+    //p_filename: full filename including the path
+    void deleteFile(const std::string& p_filename);
+
+    //The oldest function in this file.
+    //This was used to test running a windows command from a c++ file
 	void commandLineTest();
 
 	//downloads a file from google drive into a specified location
+    //Note: This relies on a python script, the name and location of which are hardcoded into this function.
+    //Note: This relies on anaconda. The installation path is hardcoded into this function. 
+    //Note: this is definitely NOT thread safe.
+    //targetLocation is just the path of the file without the filename.
+    //googleId is the unique id in the url of the file in google drive. 
 	void downloadFileWithPython(std::string targetLocation, std::string googleId);
 
 	void PrintMessage();
 
 	/*
     //TODO: make files for TestFile class. 
-    //TODO: all of this.
+    //TODO: make al all of these python functions in c++.
 	def downloadGooglePicture(p_file, p_path=g_outpath):
     """
     Downloads a picture from google drive for testing purposes

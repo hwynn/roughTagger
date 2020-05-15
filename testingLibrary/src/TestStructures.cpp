@@ -1,7 +1,6 @@
 #include "TestStructures.h"
 namespace testingmanager {
 	//TODO: finish these functions
-
 	//TODO: documentation. You can probably resuse most of python's documentation. Or make a template in excel to remake it.
 	//Note: without any default values, we don't need a class constructor.
 	TestData::TestData() {
@@ -147,6 +146,110 @@ namespace testingmanager {
 		else if (p_metatype == "VersionNum") { return containsVersionNum(); }
 		return false;
 	};
-	std::string TestData::getData(std::string p_metatype) { return ""; };
-	void TestData::setData(std::string p_metatype, std::string p_data) {};
+
+
+	std::string TestData::getData(std::string p_metatype) { 
+		if (p_metatype == "Title") { return getTitle(); }
+		else if (p_metatype == "Artist") { 
+			//TODO: let this handle cases where semicolons are in the strings. set and get functions' output should have a 1-to-1 reversible relationship.
+			std::string f_string = "";
+			std::vector<std::string> f_temp = getArtists();
+			for (int i = 0; i < f_temp.size()-1; i = i + 1) { f_string = f_string + f_temp[i] + ";"; }
+			f_string = f_string + f_temp[f_temp.size() - 1];
+			return f_string;
+		}
+		else if (p_metatype == "Tags") { 
+			//TODO: let this handle cases where semicolons are in the strings. set and get functions' output should have a 1-to-1 reversible relationship.
+			std::string f_string = "";
+			std::vector<std::string> f_temp = getTags();
+			for (int i = 0; i < f_temp.size() - 1; i = i + 1) { f_string = f_string + f_temp[i] + ";"; }
+			f_string = f_string + f_temp[f_temp.size() - 1];
+			return f_string;
+		}
+		else if (p_metatype == "Description") { return getDescr(); }
+		else if (p_metatype == "Rating") { return std::to_string(getRating()); }
+		else if (p_metatype == "Source") { return getSource(); }
+		else if (p_metatype == "Date Created") { return std::to_string(getOrgDate()); }
+		else if (p_metatype == "SeriesName") { return getSeriesName(); }
+		else if (p_metatype == "SeriesInstallment") { return std::to_string(getSeriesInstallment()); }
+		else if (p_metatype == "MetadataDate") { return std::to_string(getMetadataDate()); }
+		else if (p_metatype == "TaggerMark") { return getTaggerMark(); }
+		else if (p_metatype == "VersionNum") { return getVersionNum(); }
+		return "";
+	};
+	void TestData::setData(std::string p_metatype, std::string p_data) {
+		if (p_metatype == "Title") { setTitle(p_data); }
+		else if (p_metatype == "Artist") { 
+			//TODO: let this handle cases where semicolons are in the strings. set and get functions' output should have a 1-to-1 reversible relationship.
+			std::string delimiter = ";";
+			std::vector<std::string> f_vec;
+			size_t last = 0;
+			size_t next = 0;
+			while(next = p_data.find(delimiter, last)){
+				f_vec.push_back(p_data.substr(last, next - last));
+				last = next + 1;
+			}
+			f_vec.push_back(p_data.substr(last));
+			setArtists(f_vec); }
+		else if (p_metatype == "Tags") {
+			//TODO: let this handle cases where semicolons are in the strings. set and get functions' output should have a 1-to-1 reversible relationship.
+			std::string delimiter = ";";
+			std::vector<std::string> f_vec;
+			size_t last = 0;
+			size_t next = 0;
+			while (next = p_data.find(delimiter, last)) {
+				f_vec.push_back(p_data.substr(last, next - last));
+				last = next + 1;
+			}
+			f_vec.push_back(p_data.substr(last));
+			setTags(f_vec); }
+		else if (p_metatype == "Description") { setDescr(p_data); }
+		else if (p_metatype == "Rating") {
+			//TODO: use this if we ever switch to using cstrings. http://www.cplusplus.com/reference/cstdlib/strtol/
+			setRating(std::stoi(p_data)); }
+		else if (p_metatype == "Source") { setSource(p_data); }
+		else if (p_metatype == "Date Created") { 
+			//TODO: support milliseconds.
+			int f_intTime = std::stoi(p_data);
+			//TODO: Portable programs should not use values of this type directly, but always rely on calls to elements of the standard library to translate them to portable types.
+			//TODO: find out how pyexiv2 stored time. It should make calls to c++ or c.
+			std::time_t f_time = f_intTime;
+			setOrgDate(f_time); }
+		else if (p_metatype == "SeriesName") { setSeriesName(p_data); }
+		else if (p_metatype == "SeriesInstallment") { setSeriesInstallment(std::stoi(p_data)); }
+		else if (p_metatype == "MetadataDate") {
+			//TODO: support milliseconds.
+			int f_intTime = std::stoi(p_data);
+			//TODO: Portable programs should not use values of this type directly, but always rely on calls to elements of the standard library to translate them to portable types.
+			//TODO: find out how pyexiv2 stored time. It should make calls to c++ or c.
+			std::time_t f_time = f_intTime;
+			setOrgDate(f_time);
+		}
+		else if (p_metatype == "TaggerMark") { setTaggerMark(p_data); }
+		else if (p_metatype == "VersionNum") { setVersionNum(p_data); }
+	};
+
+	
+	extern const std::vector<std::string> g_metatypes = { "Title", "Artist", "Tags", "Description", "Rating", "Source", "Date Created", "SeriesName", "SeriesInstallment", "MetadataDate", "TaggerMark", "VersionNum" };
+	void printExistence(TestData* p_data)
+	{
+		for (size_t i = 0; i < g_metatypes.size(); i = i + 1) {
+			std::cout << "Existence of " << g_metatypes[i] << ": ";
+			std::cout << ((p_data->containsData(g_metatypes[i])) ? "True" : "False") << std::endl;
+		}
+	}
+
+	void printPresentData(TestData* p_data) {
+		for (size_t i = 0; i < g_metatypes.size(); i = i + 1) {
+			if (p_data->containsData(g_metatypes[i])) {
+				std::cout << g_metatypes[i] << ": " << p_data->getData(g_metatypes[i]) << std::endl;
+			}
+		}
+	}
+
+	TestFile::TestFile(std::string p_filename, std::string p_fullname, std::string p_googleId) {
+		m_filename = p_filename;
+		m_fullname = p_fullname;
+		m_googleId = p_googleId;
+	};
 }
