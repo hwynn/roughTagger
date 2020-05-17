@@ -164,6 +164,26 @@ namespace testingmanager{
 		std::string m_googleId;
 	private:
 	};
+
+	//removes several files at once.
+	//Used for testing to remove original or copied files once they aren't needed
+	//:param p_fileList: information about each test file including filenames (default: g_fileList from TData)
+	//:param p_path: path the files will be saved to (default: g_outpath imported from TData)
+	//void removeAllFiles(std::vector<testingmanager::TestFile> p_fileList,std::string p_path);
+
+
+	//Downloads a picture from google drive for testing purposes
+	//:param p_file: information about the test file, including filename and googleID
+	//:param p_path: path the files will be saved to (default: g_outpath imported from TData)
+	//void downloadGooglePicture(testingmanager::TestFile p_file, std::string p_path);
+
+	//Downloads a list of files from google drive if we haven't downloaded them already.
+	//Used for testing purposes.
+	//:param p_allFiles: information about each test file, including filename and googleID
+	//:return: full names of the files loaded including their paths. This includes the prexisting files.
+	//std::vector<std::string> loadFiles(std::vector<testingmanager::TestFile> p_allFiles);
+
+	//TODO: make files for TestFile class.
 }
 
 #endif
