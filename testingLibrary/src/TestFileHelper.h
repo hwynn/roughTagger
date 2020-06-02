@@ -1,9 +1,9 @@
 #ifndef TESTFILEHELPER_H
 #define TESTFILEHELPER_H
-#include "TestStructures.h"
 #include <string>
+#include <vector>
 #include <iostream>
-
+#include <stdexcept>
 //These are functions  manage files to help automate unit testing.
 //These functions are used with files immediately. 
 //We don't need to package them in the TestFile class first.
@@ -15,10 +15,8 @@ namespace testfilehelper {
 
     //Copies a file
     //p_filename1: full filename including the path of existing file we want to copy
-    //Note: we assume file1 exists without checking.
     //p_filename2: full filename including the path of the copy file we're going to create
-    //Note: we assume file1 exists without checking.
-    //TODO: maybe throw errors instead of assuming stuff?
+	//Exceptions: Throws runtime_error if file1 does not exist or if file2 already exists.
     void copyFile(const std::string& p_filename1, const std::string& p_filename2);
 
     //Deletes a file
@@ -57,11 +55,12 @@ namespace testfilehelper {
     //singleClone('home/user/pictures/birds.jpg')
     //will return "home/user/pictures/birdsCopy.jpg"
     //and 'home/user/pictures/birdsCopy.jpg' will be created
-    //Note: according to the shutil documentation, this might not copy all metadata
+    //Note: we aren't certain if this copies all metadata.
+	//TODO: test if this copies all metadata.
     //:param p_filename: full filename including the path
     //:param p_stop: True if we want to prevent existing clones from being overwritten (default: False)
-    //:raise OSError: if no file with p_filename is found
-    //:raise ValueError: if p_stop is True and a file with a clone's name already exists
+    //Exceptions: runtime_error: if no file with p_filename is found
+    //			  runtime_error: if p_stop is True and a file with a clone's name already exists
     //:return: name of the cloned file including the path
     std::string singleClone(std::string p_filename, bool p_stop);
 
@@ -69,8 +68,8 @@ namespace testfilehelper {
     //Used to create fresh files for metadata editting tests.
     //For a given test, we give this function a list of the files needed.
     //:param p_filenames: full filenames including the paths
-    //:raise OSError: if no file with p_filename is found
-    //:raise ValueError: if p_stop is True and a file with a clone's name already exists
+	//Note: if a file in p_filenames is missing, it will not be cloned, 
+	//		and the size of the list returned will not match the size of p_filenames
     //:return: names of the cloned files including the paths
     std::vector<std::string> cloneThese(std::vector<std::string> p_filenames);
 

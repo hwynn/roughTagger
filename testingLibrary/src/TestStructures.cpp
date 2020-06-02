@@ -247,9 +247,34 @@ namespace testingmanager {
 		}
 	}
 
-	TestFile::TestFile(std::string p_filename, std::string p_fullname, std::string p_googleId) {
+	TestFile::TestFile(std::string p_filename, std::string p_path, std::string p_googleId) {
 		m_filename = p_filename;
-		m_fullname = p_fullname;
+		m_path = p_path;
+		m_fullname = p_path + p_filename;
 		m_googleId = p_googleId;
 	};
+
+	bool TestFile::exists() const{
+		return testfilehelper::fileExists(m_fullname);
+	}
+
+	void TestFile::download() const{
+		testfilehelper::downloadFileWithPython(m_googleId, m_path, m_filename);
+	}
+
+	std::string TestFile::clone() const{
+		std::string cloneName = testfilehelper::singleClone(m_fullname, false);
+		return cloneName;
+	}
+
+	void TestFile::releaseClone() const{
+		std::string ext = testfilehelper::getExtension(m_filename);
+		std::string f_name = m_filename.substr(0, m_filename.length() - ext.length());
+		const std::string f_newfile = m_path + f_name + "Copy" + ext;
+		testfilehelper::deleteFile(f_newfile);
+	}
+
+	void TestFile::deleteFile() const{
+		testfilehelper::deleteFile(m_fullname);
+	}
 }
