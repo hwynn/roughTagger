@@ -12,8 +12,11 @@ namespace testfilehelper {
 
 	void copyFile(const std::string& p_filename1, const std::string& p_filename2) {
 		//maybe switch to using fopen_s? A lot of people on coding forums said this isn't really an issue though.
+		try {
+			if (!fileExists(p_filename1)) { throw std::runtime_error("File " + p_filename2 + " does not exist"); }
+			if (fileExists(p_filename2)) { throw std::runtime_error("File " + p_filename2 + " already exists"); }
+		
 		register int key;
-
 		FILE* fp1, * fp2;
 
 		fp1 = fopen(p_filename1.c_str(), "rb");
@@ -24,9 +27,12 @@ namespace testfilehelper {
 			fputc(key, fp2);
 		}
 		fclose(fp1); fclose(fp2);
+		}
+		catch (std::runtime_error & e) { std::cout << "Caught a runtime_error exception: " << e.what() << std::endl; }
 	}
 
 	void deleteFile(const std::string& p_filename){
+		std::cout << "deleteFile() " << p_filename << std::endl;
 		remove(p_filename.c_str());
 	}
 
@@ -79,15 +85,15 @@ namespace testfilehelper {
 
 	std::string singleClone(std::string p_filename, bool p_stop){
 		if (!fileExists(p_filename)){
-			return "";//TODO: remove this when we return error. throw OSError: if no file with p_filename is found
+			try { throw std::runtime_error("File " + p_filename + " missing"); }
+			catch (std::runtime_error & e) { std::cout << "Caught a runtime_error exception: " << e.what() << std::endl; }
 		}
 		std::string ext = getExtension(p_filename);
 		std::string f_name = p_filename.substr(0, p_filename.length() - ext.length());
 		const std::string f_newfile = f_name + "Copy" + ext;
 		if (fileExists(f_newfile)){
 			if (p_stop) {
-				std::cout << "File " << f_newfile << " already exists" << std::endl;//TODO: throw exception. ValueError
-				return "";//TODO: remove this when we return error.
+				throw std::runtime_error("File "+f_newfile+" already exists");
 			}
 			else {
 				deleteFile(f_newfile);
@@ -100,7 +106,8 @@ namespace testfilehelper {
 	std::vector<std::string> cloneThese(std::vector<std::string> p_filenames){
 		std::vector<std::string> files;
 		for (size_t i = 0; i < p_filenames.size(); i = i + 1) {
-			files.push_back(singleClone(p_filenames[i],false));
+			try { files.push_back(singleClone(p_filenames[i], false)); }
+			catch (std::runtime_error & e) { std::cout << "Caught a runtime_error exception: " << e.what() << std::endl; }
 		}
 		return files;
 	}

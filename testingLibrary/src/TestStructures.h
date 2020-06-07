@@ -1,5 +1,6 @@
 #ifndef TESTSTRUCTURES_H
 #define TESTSTRUCTURES_H
+#include "TestFileHelper.h"
 #include <ctime>
 #include <string>
 #include <vector>
@@ -143,45 +144,42 @@ namespace testingmanager{
 
 	//This class is meant to hold all the data we need to locate and or download a file used for testing.
 	class TestFile {
-		/*
-		self.filename = p_filename
-		//file name is the name of the file and does NOT include the path. But it does include the extension. 
-        self.fullname = p_fullname
-		//fullname is the full name of the file including the path.
-        self.googleId = p_googleId
-		*/
 
 	public:
-		TestFile(std::string p_filename,std::string p_fullname,std::string p_googleId);
+		//Note: p_path must end with "\\"
+		//proper: "C:\\Users\\h\\Pictures\\"	improper: "C:\\Users\\h\\Pictures"
+		TestFile(std::string p_filename,std::string p_path,std::string p_googleId);
 
 		//the name of the file along with the file extension. Does NOT include the path.
 		std::string m_filename;
+
+		//the name of the file along with the file extension and directory path.
+		//Note: m_path must end with "\\"
+		//proper: "C:\\Users\\h\\Pictures\\"	improper: "C:\\Users\\h\\Pictures"
+		std::string m_path;
 
 		//the name of the file along with the file extension and directory path.
 		std::string m_fullname;
 	
 		//google file id. Used in the google drive url of the file.
 		std::string m_googleId;
+
+
+		//Checks if a file exists
+		bool exists() const;
+
+		void download() const;
+
+		std::string clone() const;
+
+		void releaseClone() const;
+
+		void deleteFile() const;
+
 	private:
 	};
 
-	//removes several files at once.
-	//Used for testing to remove original or copied files once they aren't needed
-	//:param p_fileList: information about each test file including filenames (default: g_fileList from TData)
-	//:param p_path: path the files will be saved to (default: g_outpath imported from TData)
-	//void removeAllFiles(std::vector<testingmanager::TestFile> p_fileList,std::string p_path);
 
-
-	//Downloads a picture from google drive for testing purposes
-	//:param p_file: information about the test file, including filename and googleID
-	//:param p_path: path the files will be saved to (default: g_outpath imported from TData)
-	//void downloadGooglePicture(testingmanager::TestFile p_file, std::string p_path);
-
-	//Downloads a list of files from google drive if we haven't downloaded them already.
-	//Used for testing purposes.
-	//:param p_allFiles: information about each test file, including filename and googleID
-	//:return: full names of the files loaded including their paths. This includes the prexisting files.
-	//std::vector<std::string> loadFiles(std::vector<testingmanager::TestFile> p_allFiles);
 
 	//TODO: make files for TestFile class.
 }

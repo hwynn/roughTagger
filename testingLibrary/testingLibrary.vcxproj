@@ -19,10 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\externalTestFiles1.h" />
     <ClInclude Include="src\TestFileHelper.h" />
     <ClInclude Include="src\TestStructures.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\externalTestFiles1.cpp" />
     <ClCompile Include="src\TestFileHelper.cpp" />
     <ClCompile Include="src\TestStructures.cpp" />
   </ItemGroup>
